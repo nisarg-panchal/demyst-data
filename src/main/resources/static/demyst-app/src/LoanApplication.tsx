@@ -16,9 +16,18 @@ function LoanApplication() {
     .then(response => {
       console.log(JSON.stringify(response));
       if (response && response.data.preAssessment) {
-        console.log("Here");
+        const businessName = response.data.businessName;
+        const averageProfit = response.data.averageProfit;
         let approvedAmount = target.loanAmount.value * (response.data.preAssessment / 100);
-        toast.info(response.data.preAssessment + "% of applied loan amount! \n Approved amount:" + approvedAmount, {
+        console.log(response.data.preAssessment
+            + "% of applied loan amount! \n Approved amount:" + approvedAmount
+            + "\n for the business:" + businessName
+            + "\n having average profit:" + averageProfit);
+        toast.info(response.data.preAssessment
+            + "% of applied loan amount! \n Approved amount:" + approvedAmount
+            + "\n for the business:" + businessName
+            + "\n having average profit:" + averageProfit,
+            {
           position: toast.POSITION.TOP_CENTER,
           theme: "colored"
         });

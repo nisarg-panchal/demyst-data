@@ -69,9 +69,11 @@ class LoanProcessorTest {
     assertThat(loanProcessor.processLoan(
         LoanApplication
             .builder()
+            .businessName("ABC")
             .loanAmount(new BigDecimal("50000"))
             .accountingProvider(AccountingProvider.XERO)
-            .build())).isEqualTo(LoanProcessResponse.builder().preAssessment(20).build());
+            .build()).getPreAssessment()).isEqualTo(
+        LoanProcessResponse.builder().preAssessment(20).build().getPreAssessment());
   }
 
   @Test
@@ -81,9 +83,11 @@ class LoanProcessorTest {
     assertThat(loanProcessor.processLoan(
         LoanApplication
             .builder()
+            .businessName("ABC")
             .loanAmount(new BigDecimal("50000"))
             .accountingProvider(AccountingProvider.XERO)
-            .build())).isEqualTo(LoanProcessResponse.builder().preAssessment(60).build());
+            .build()).getPreAssessment()).isEqualTo(
+        LoanProcessResponse.builder().preAssessment(60).build().getPreAssessment());
   }
 
   @Test
@@ -93,8 +97,10 @@ class LoanProcessorTest {
     assertThat(loanProcessor.processLoan(
         LoanApplication
             .builder()
+            .businessName("ABC")
             .loanAmount(new BigDecimal("5000"))
             .accountingProvider(AccountingProvider.XERO)
-            .build())).isEqualTo(LoanProcessResponse.builder().preAssessment(100).build());
+            .build()).getPreAssessment()).isEqualTo(
+        LoanProcessResponse.builder().preAssessment(100).build().getPreAssessment());
   }
 }

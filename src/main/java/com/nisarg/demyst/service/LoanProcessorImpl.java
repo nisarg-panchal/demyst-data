@@ -4,6 +4,7 @@ import com.nisarg.demyst.bean.BalanceSheet;
 import com.nisarg.demyst.bean.LoanApplication;
 import com.nisarg.demyst.bean.LoanProcessResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
@@ -19,7 +20,8 @@ public class LoanProcessorImpl implements LoanProcessor {
   @Override
   public LoanProcessResponse processLoan(@NonNull LoanApplication loanApplication)
       throws IOException {
-    LoanProcessResponse loanProcessResponse = new LoanProcessResponse(20);
+    LoanProcessResponse loanProcessResponse = new LoanProcessResponse(
+        loanApplication.getBusinessName(), new BigDecimal("0.00"), 20);
     loanApplication.setBalanceSheet(new BalanceSheet(accountProviderService.getBalanceSheetData(
         loanApplication.getAccountingProvider().name())));
     if (loanApplication.getBalanceSheet() != null) {
@@ -32,6 +34,8 @@ public class LoanProcessorImpl implements LoanProcessor {
       if (avgProfit > 0) {
         loanProcessResponse.setPreAssessment(60);
         if (avgAssetValue > loanApplication.getLoanAmount().doubleValue()) {
+          loanProcessResponse.setBusinessName(loanProcessResponse.getBusinessName());
+          loanProcessResponse.setAverageProfit(new BigDecimal(avgProfit));
           loanProcessResponse.setPreAssessment(100);
         }
       }
